@@ -29,7 +29,7 @@ def save_random_card(q='', additional_params={}):
     image_uri = random_card["image_uris"]["normal"]
     card_image = Image.open(requests.get(image_uri, stream=True).raw)
     display(card_image)
-    filename = random_card["name"].replace(" ", "_").replace("/", ":") + ".jpg"
+    filename = random_card["name"].replace(" ", "_").replace("/", "%") + ".jpg"
     
     if 'y' == input(f'Save image of {random_card["name"]} to file (y/[n])? '):
         SAVEDIR.mkdir(parents=True, exist_ok=True)
