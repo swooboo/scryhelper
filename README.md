@@ -9,7 +9,7 @@ In [1]: from scryhelper import save_random_card
 
 In [2]: save_random_card('is:funny')
 
-<card is displayed here>￼
+<card is displayed here>
 
 Save image of Lightning Colt to file (y/[n])? y
 Successfully saved to file "cards\Lightning_Colt.jpg".
