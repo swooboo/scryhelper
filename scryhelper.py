@@ -14,18 +14,18 @@ import re
 import requests
 
 FUNQ = "is:funny include:extra"
+TIMEOUT = 3
 MAXRAND = 99999
 RAND_DIGITS = ceil(log10(MAXRAND+1))
 SAVEDIR = Path("./cards")
 
 def save_random_card(q='', additional_params={}):
-    print(additional_params, q)
     if 'q' in additional_params:
         print('save_random_card(): additional_params cannot have key "q"')
         return
-    additional_params['q'] = q
-    random_card = requests.get(url="https://api.scryfall.com/cards/random", params=additional_params, timeout=1).json()
-    del additional_params
+    params = additional_params.copy()
+    params['q'] = q
+    random_card = requests.get(url="https://api.scryfall.com/cards/random", params=params, timeout=TIMEOUT).json()
     image_uri = random_card["image_uris"]["normal"]
     card_image = Image.open(requests.get(image_uri, stream=True).raw)
     display(card_image)
