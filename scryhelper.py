@@ -31,7 +31,7 @@ def save_random_card(q='', additional_params={}):
     display(card_image)
     filename = random_card["name"].replace(" ", "_").replace("/", ":") + ".jpg"
     
-    if 'y' == input('Save image to file (y/[n])? '):
+    if 'y' == input(f'Save image of {random_card["name"]} to file (y/[n])? '):
         SAVEDIR.mkdir(parents=True, exist_ok=True)
         target_filename = SAVEDIR/filename
         card_image.convert('RGB').save(target_filename)
