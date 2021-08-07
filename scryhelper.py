@@ -10,6 +10,7 @@ from PIL import Image
 from pathlib import Path
 from random import randint
 from math import log10, ceil
+from sys import argv
 import re
 import requests
 
@@ -18,6 +19,10 @@ TIMEOUT = 3
 MAXRAND = 99999
 RAND_DIGITS = ceil(log10(MAXRAND+1))
 SAVEDIR = Path("./cards")
+
+def main(argv=argv):
+    if len(argv)>1:
+        save_random_card(q=argv[1])
 
 def save_random_card(q='', additional_params={}):
     if 'q' in additional_params:
@@ -63,3 +68,6 @@ def add_rand(name):
 def remove_rand(name):
     regex = r"^(\d+%)*"
     return re.sub(regex, '', name)
+
+if __name__ == '__main__':
+    main()
