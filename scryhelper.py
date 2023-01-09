@@ -11,14 +11,15 @@ from pathlib import Path
 from random import randint
 from math import log10, ceil
 from sys import argv
+from os import getcwd
 import re
 import requests
 
 FUNQ = "is:funny include:extra"
 TIMEOUT = 3
-MAXRAND = 99999
+MAXRAND = 99
 RAND_DIGITS = ceil(log10(MAXRAND+1))
-SAVEDIR = Path("./cards")
+SAVEDIR = Path(getcwd()) / Path("cards")
 
 def main(argv=argv):
     if len(argv)>1:
