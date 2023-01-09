@@ -43,9 +43,21 @@ def save_random_card(q='', additional_params={}):
         card_image.convert('RGB').save(target_filename)
         print(f'Successfully saved to file "{target_filename}".')
 
-def rotate_dir_images(cw = True, path=SAVEDIR):
-    rotation = Image.ROTATE_270 if cw else Image.ROTATE_90
-    for image in path.iterdir():
+def print_random_card(q='', additional_params={}):
+    if 'q' in additional_params:
+        print('save_random_card(): additional_params cannot have key "q"')
+        return
+    params = additional_params.copy()
+    params['q'] = q
+    random_card = requests.get(url="https://api.scryfall.com/cards/random", params=params, timeout=TIMEOUT).json()
+    image_uri = random_card["image_uris"]["normal"]
+    card_image = Image.open(requests.get(image_uri, stream=True).raw)
+    display(card_image)
+    
+def rotate_dir_images(cw=True, path=SAVEDIR):
+    path = Path(path)
+    rotation = Image.ROTATE_270 if cw else Image.ROTATE_90 # Rotation is inverse
+    for image in filter(Path.is_file, path.iterdir()):
         Image.open(image).transpose(rotation).save(image)
 
 def shuffle_dir(path=SAVEDIR):
