@@ -8,11 +8,9 @@ Created on Wed Aug  4 04:21:11 2021
 from IPython.core.display import display
 from PIL import Image
 from pathlib import Path
-from random import randint
 from math import log10, ceil
 from sys import argv
 from os import getcwd
-import re
 import requests
 
 FUNQ = "is:funny include:extra"
@@ -54,33 +52,6 @@ def print_random_card(q='', additional_params={}):
     card_image = Image.open(requests.get(image_uri, stream=True).raw)
     display(card_image)
     
-def rotate_dir_images(cw=True, path=SAVEDIR):
-    path = Path(path)
-    rotation = Image.ROTATE_270 if cw else Image.ROTATE_90 # Rotation is inverse
-    for image in filter(Path.is_file, path.iterdir()):
-        Image.open(image).transpose(rotation).save(image)
-
-def shuffle_dir(path=SAVEDIR):
-    path = Path(path)
-    path.mkdir(parents=True, exist_ok=True)
-    for image in path.iterdir():
-        image.rename(path / add_rand(image.name))
-
-def unshuffle_dir(path=SAVEDIR):
-    path = Path(path)
-    path.mkdir(parents=True, exist_ok=True)
-    for image in path.iterdir():
-        image.rename(path / remove_rand(image.name))
-    
-def add_rand(name):
-    name = str(name)
-    regex = r"^(\d+%)*"
-    prefix = f'%0{RAND_DIGITS}d%%' % randint(0, MAXRAND) 
-    return re.sub(regex, prefix, name)
-
-def remove_rand(name):
-    regex = r"^(\d+%)*"
-    return re.sub(regex, '', name)
 
 if __name__ == '__main__':
     main()
